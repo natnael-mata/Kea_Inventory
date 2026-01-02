@@ -16,6 +16,7 @@ TRANS_TYPE_CHOICES = [
 class Category(models.Model):
     category_id = models.CharField(max_length=5)
     category_name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
     parent_id = models.CharField(max_length=5)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=100)
