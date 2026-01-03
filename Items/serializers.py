@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Items, Category, Items_Status, STATUS_CHOICES, TRANS_TYPE_CHOICES, Items_Price, Transactions
+from .models import Items, Category, Items_Status, STATUS_CHOICES, TRANS_TYPE_CHOICES, Items_Price, Transactions, Items_InitialAmount
 
 #Categry Serializers to handle both read and write operations
 class CategorySerializer(serializers.ModelSerializer):
@@ -29,7 +29,6 @@ class ItemsSerializer(serializers.ModelSerializer):
                   'category_id', 
                   'uom', 
                   ]
-        depth = 1  # To include related Category details
         read_only_fields = ['created_on',
                             'last_updated_on',
                             'created_by',
@@ -71,32 +70,58 @@ class ItemsStatusSerializer(serializers.ModelSerializer):
                             'created_by',
                             'last_updated_by',  
                             ]
-class ItemsStatusCreateSerializer(serializers.ModelSerializer):
+
+class ItemsPriceSerializer(serializers.ModelSerializer):        
     class Meta:
-        model = Items_Status
-        fields = ['status_id', 
-                  'effective_date', 
-                  'item_id', 
-                  'status', 
-                  'remark']
-        depth = 1  # To include related Items details
+        model = Items_Price
+        fields = ['price_id',
+                  'item_id',
+                  'unit_price',
+                  'currency',
+                  'effective_date',
+                  'remark',
+                  ]
         read_only_fields = ['created_on',
                             'last_updated_on',
                             'created_by',
                             'last_updated_by',  
                             ]
-class ItemsCreateSerializer(serializers.ModelSerializer):
+class TransactionsSerializer(serializers.ModelSerializer):  
     class Meta:
-        model = Items
-        fields = ['item_id', 
-                  'item_name', 
-                  'description', 
-                  'category_id', 
-                  'uom']
-        depth = 1  # To include related Category details
+        model = Transactions
+        fields = ['trans_id',
+                  'trans_type',
+                  'trans_date', 
+                    'item_id',
+                    'quantity',
+                    'approved_on',
+                    'approved_by',
+                    'remark',
+                        ]
         read_only_fields = ['created_on',
                             'last_updated_on',
                             'created_by',
-                            'last_updated_by',
-]
-        
+                            'last_updated_by',  
+                            ]
+        def validate_trans(self, data)
+            trans_type = data.get('trans_type')
+            amount = data.get('amount')
+            if trans_type == 'OUT' and amount > available_stock:
+                raise serializers.ValidationError("Insufficient stock for OUT transaction.")
+            return data
+            
+class ItemsInitialAmountSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = Items_InitialAmount
+        fields = ['initial_amount_id',
+                  'item_id',
+                  'quantity',
+                    'UOM',
+                  'effective_date',
+                  'remark',
+                        ]
+        read_only_fields = ['created_on',
+                            'last_updated_on',
+                            'created_by',
+                            'last_updated_by',  
+                            ]
