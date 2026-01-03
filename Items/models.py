@@ -128,3 +128,23 @@ class Transactions(models.Model):
     
     class Meta:
          db_table = 'Transactions'
+
+class Items_InitialAmount(models.Model):
+    initial_amount_id = models.AutoField(primary_key=True)
+    item_id = models.ForeignKey(Items, 
+                                on_delete=models.CASCADE,
+                                db_column='item_id',
+                                related_name='initial_amount')
+    effective_date = models.DateField()
+    amount = models.IntegerField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.CharField(max_length=100)
+    last_updated_on = models.DateTimeField(auto_now=True, 
+                                           blank=True, 
+                                           null=True)
+    last_updated_by = models.CharField(max_length=100,
+                                       blank=True, 
+                                       null=True)
+
+    class Meta:
+        db_table = 'Items_InitialAmount'
