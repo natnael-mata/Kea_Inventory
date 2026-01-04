@@ -87,6 +87,7 @@ class Items_Price(models.Model):
                                  db_column = 'item_id',
                                  related_name= 'price')
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=10, default="ETB")
     effective_date = models.DateField()
     remark = models.TextField(blank= True, null= True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -109,7 +110,7 @@ class Transactions(models.Model):
                                  on_delete=models.CASCADE,
                                  db_column = 'item_id',
                                  related_name= 'trans')
-    amount = models.IntegerField()
+    quantity = models.IntegerField()
     approved_on = models.DateTimeField(auto_now=True,
                                        blank= True, 
                                        null= True)
@@ -136,7 +137,8 @@ class Items_InitialAmount(models.Model):
                                 db_column='item_id',
                                 related_name='initial_amount')
     effective_date = models.DateField()
-    amount = models.IntegerField()
+    quantity = models.IntegerField()
+    UOM = models.CharField(max_length=3)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=100)
     last_updated_on = models.DateTimeField(auto_now=True, 
