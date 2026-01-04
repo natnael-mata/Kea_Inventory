@@ -5,11 +5,39 @@ from .models import Items, Category, Items_Status, STATUS_CHOICES, TRANS_TYPE_CH
 
 # New Serializer for Item Name, Date, and Quantity
 class ItemDateQtySerializer(serializers.ModelSerializer):
-    item_name = serializers.CharField(source='item_id.item_name', read_only=True)
+    quantity = serializers.SerializerMethodField()
+    effective_date = serializers.SerializerMethodField()
     
     class Meta:
-        model = Items_InitialAmount
+        model = Items
         fields = ['item_name', 'effective_date', 'quantity']
+
+    def get_effective_date(self, obj):
+        return timezone.now().date()
+
+    def get_quantity(self, obj):
+        # 1. Get latest Initial Amount
+        initial_record = (
+            Items_InitialAmount.objects
+            .filter(item_id=obj.item_id)
+            .order_by('-effective_date')
+            .first()
+        )
+
+        initial_qty = initial_record.quantity if initial_record else 0
+        start_date = initial_record.effective_date if initial_record else None
+
+        # 2. Sum transactions
+        trans_qs = Transactions.objects.filter(item_id=obj.item_id)
+
+        if start_date:
+            trans_qs = trans_qs.filter(trans_date__gt=start_date)
+
+        total_trans_qty = trans_qs.aggregate(
+            total=Sum('quantity')
+        )['total'] or 0
+
+        return initial_qty + total_trans_qty
 
 
 #Categry Serializers to handle both read and write operations

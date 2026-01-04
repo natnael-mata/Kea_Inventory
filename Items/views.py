@@ -33,7 +33,7 @@ class TransactionsSerializerViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionsSerializer
 
 class ItemDateQtyViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Items_InitialAmount.objects.select_related('item_id').all()
+    queryset = Items.objects.all()
     serializer_class = ItemDateQtySerializer
 
 class StockLedgerView(APIView):
