@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'Items',
     'Users',
     'rest_framework_simplejwt',
-    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -141,16 +140,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Kea Inventory API',
-    'DESCRIPTION': 'A professional inventory management system backend.',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
-}
 
 SIMPLE_JWT = {
     'USER_ID_FIELD': 'username',
