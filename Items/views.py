@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from .models import Items, Category, Items_Status, Items_Price, Items_InitialAmount, Transactions
 from .serializers import ItemsSerializer, CategorySerializer, ItemsStatusSerializer, ItemReportSerializer, ItemsPriceSerializer, ItemsInitialAmountSerializer, TransactionsSerializer, ItemDateQtySerializer
 from .stock_ledger import get_stock_ledger
-from drf_spectacular.utils import extend_schema
 from Users.permissions import IsAdminOrStoreKeeper, IsAdminOrSupervisorOrStoreKeeper, IsAdminUser
 
 class CategoryViewSet(viewsets.ModelViewSet):   
@@ -48,7 +47,6 @@ class ItemDateQtyViewSet(viewsets.ReadOnlyModelViewSet):
    # permission_classes = [IsAdminOrStoreKeeper]
 
 class StockLedgerView(APIView):
-    @extend_schema(responses={200: TransactionsSerializer(many=True)})
   #  permission_classes = [IsAdminOrSupervisorOrStoreKeeper]
     def get(self, request, format=None):
         item_id = request.query_params.get('item_id')
