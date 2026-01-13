@@ -2,7 +2,6 @@
 
 [![Django](https://img.shields.io/badge/Django-6.0-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![DRF](https://img.shields.io/badge/DRF-3.16-A30000?style=for-the-badge&logo=django&logoColor=white)](https://www.django-rest-framework.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 **Kea** is a professional backend inventory management system designed for small to medium-sized businesses. It provides a robust set of APIs to manage categories, items, pricing, and stock transactions with built-in reporting.
 
@@ -26,7 +25,6 @@
 - **Framework**: Django 6.0 & Django REST Framework
 - **Database**: SQLite (Default) | MySQL / PostgreSQL supported
 - **Auth**: JWT (JSON Web Token)
-- **Documentation**: drf-spectacular (Swagger/Redoc)
 
 ---
 
