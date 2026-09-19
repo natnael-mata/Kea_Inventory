@@ -148,3 +148,10 @@ cython_debug/
 
 # VS Code
 .vscode/
+
+# Never commit environments, venvs, or database dumps
+.env
+.env.*
+!.env.example
+.venv/
+*.sql
